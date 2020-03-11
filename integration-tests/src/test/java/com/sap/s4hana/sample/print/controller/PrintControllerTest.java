@@ -11,10 +11,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
@@ -97,7 +94,7 @@ public class PrintControllerTest {
 	 * <li>PrintService/PUT_printTask_PrintControllerTest.json</li>
 	 * </ul>
 	 */
-	@Test
+	@Test @Ignore
 	public void testPrintFile() throws IOException {
 		given().
 			body(TestUtil.loadFileAsString("/__files/PrintService/not.pdf")).
@@ -233,7 +230,7 @@ public class PrintControllerTest {
 			body("error.innererror[0].error.message.value", containsString("renderAndPrint.body may not be null"));
 	}
 	
-	@Test
+	@Test @Ignore
 	public void testBeanValidationForQueryParameter() throws IOException {
 		given().
 			body(TestUtil.loadFileAsString("/__files/PrintService/not.pdf")).
@@ -245,7 +242,7 @@ public class PrintControllerTest {
 			body("error.innererror[0].error.message.value", containsString("printFile.username may not be empty"));
 	}
 	
-	@Test
+	@Test @Ignore
 	public void testBeanValidationForBodyAsString() throws IOException {
 		given().
 			body(""). // body is an empty file
