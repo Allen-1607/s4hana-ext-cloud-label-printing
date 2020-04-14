@@ -15,7 +15,7 @@
 		"bodyPatterns" : [
 			{
 				"equalToJson" : {
-					"qname": "expected queue name",
+					"qname": "expected_queue_name",
 					"numberOfCopies": 100500,
 					"username": "expected user name",
 					"printContents": [

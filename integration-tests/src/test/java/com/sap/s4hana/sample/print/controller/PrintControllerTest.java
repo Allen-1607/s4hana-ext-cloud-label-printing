@@ -11,7 +11,10 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
@@ -71,7 +74,7 @@ public class PrintControllerTest {
 			contentType(JSON).
 			body("{\r\n" + 
 					"   \"printTask\":{\r\n" + 
-					"      \"qname\":\"expected queue name\",\r\n" + 
+					"      \"qname\":\"expected_queue_name\",\r\n" + 
 					"      \"numberOfCopies\":100500,\r\n" + 
 					"      \"username\":\"expected user name\"\r\n" + 
 					"   },\r\n" + 
@@ -94,25 +97,6 @@ public class PrintControllerTest {
 	 * <li>PrintService/PUT_printTask_PrintControllerTest.json</li>
 	 * </ul>
 	 */
-	@Test @Ignore
-	public void testPrintFile() throws IOException {
-		given().
-			body(TestUtil.loadFileAsString("/__files/PrintService/not.pdf")).
-			queryParam("username", "expected user name").
-			queryParam("numberOfCopies", 100500).
-			queryParam("documentName", "expected_name.pdf").
-		when().
-			post("/api/v1/PrintQueues/{queueName}", "expected queue name").
-		then().
-			statusCode(is(204));
-	}
-	
-	/**
-	 * This test uses WireMock stubs defined in the following file:
-	 * <ul>
-	 * <li>PrintService/PUT_printTask_PrintControllerTest.json</li>
-	 * </ul>
-	 */
 	@Test
 	public void testPrintFileMultipart() throws IOException {
 		given().
@@ -121,7 +105,7 @@ public class PrintControllerTest {
 					"application/octet-stream").
 			multiPart("printTask", 
 					"{\r\n" + 
-					"  \"qname\": \"expected queue name\",\r\n" + 
+					"  \"qname\": \"expected_queue_name\",\r\n" + 
 					"  \"numberOfCopies\": 100500,\r\n" + 
 					"  \"username\": \"expected user name\",\r\n" + 
 					"  \"printContents\": {\r\n" + 
@@ -228,30 +212,6 @@ public class PrintControllerTest {
 		then().
 			statusCode(is(422)).
 			body("error.innererror[0].error.message.value", containsString("renderAndPrint.body may not be null"));
-	}
-	
-	@Test @Ignore
-	public void testBeanValidationForQueryParameter() throws IOException {
-		given().
-			body(TestUtil.loadFileAsString("/__files/PrintService/not.pdf")).
-			queryParam("username", ""). // must not be null or empty
-		when().
-			post("/api/v1/PrintQueues/{queueName}", "expected queue name").
-		then().
-			statusCode(is(422)).
-			body("error.innererror[0].error.message.value", containsString("printFile.username may not be empty"));
-	}
-	
-	@Test @Ignore
-	public void testBeanValidationForBodyAsString() throws IOException {
-		given().
-			body(""). // body is an empty file
-			queryParam("username", "is present").
-		when().
-			post("/api/v1/PrintQueues/{queueName}", "expected queue name").
-		then().
-			statusCode(is(422)).
-			body("error.innererror[0].error.message.value", containsString("printFile.body may not be empty"));
 	}
 
 }
