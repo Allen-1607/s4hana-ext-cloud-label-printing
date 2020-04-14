@@ -42,7 +42,7 @@ public class PrintServiceProducerTest {
 					"      {\r\n" + 
 					"         \"label\":\"print\",\r\n" + 
 					"         \"plan\":\"application\",\r\n" + 
-					"         \"name\":\"print\",\r\n" + 
+					"         \"name\":\"printServiceInstanceName\",\r\n" + 
 					"         \"credentials\":{\r\n" + 
 					"            \"uaa\":{\r\n" + 
 					"               \"clientid\":\"%s\",\r\n" + 

@@ -42,7 +42,12 @@ public class PrintServiceProducer {
 	
 	@VisibleForTesting
 	protected ScpCfService getScpPrintService() {
-		return ScpCfService.of(ScpCfServiceDesignator.builder().serviceName("print").build(), 
+		final ScpCfServiceDesignator printServiceDesignator = ScpCfServiceDesignator.builder()
+				.serviceType("print")
+				.servicePlan("application")
+				.build();
+		
+		return ScpCfService.of(printServiceDesignator, 
 				"credentials/uaa/url", 
 				"credentials/uaa/clientid", 
 				"credentials/uaa/clientsecret", 
@@ -53,6 +58,8 @@ public class PrintServiceProducer {
 	 * This helper class for Feign handles authentication to the SAP Cloud Platform
 	 * Print Service using {@link ScpCfService#addBearerTokenHeader(HttpRequest)}
 	 * method.
+	 * 
+	 * TODO check if the Print Service name is correct 
 	 *
 	 */
 	@VisibleForTesting
